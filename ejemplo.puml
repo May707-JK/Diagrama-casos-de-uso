@@ -1,0 +1,51 @@
+@startuml
+left to right direction
+
+actor "Miembro" as Miembro
+actor "Miembro Regular" as Regular
+actor "Miembro Premium" as Premium
+actor "Administrador del Sistema" as Admin
+
+Regular --|> Miembro
+Premium --|> Miembro
+
+rectangle "Sistema Coworking Inteligente" {
+
+    usecase "Registrarse" as UC1
+    usecase "Modificar Perfil" as UC2
+
+    usecase "Reservar Sala\n de Reuniones" as UC3
+    usecase "Verificar\nDisponibilidad" as UC4
+    usecase "Enviar Confirmación\npor Email" as UC5
+
+    usecase "Pagar Reserva" as UC6
+    usecase "Solicitar Servicio\n de Catering" as UC7
+
+    usecase "Abrir Puerta\ncon Código QR" as UC8
+    usecase "Notificar Alerta\n de Fallo" as UC9
+
+    usecase "Gestionar Inventario\n de Salas" as UC10
+}
+
+Miembro --> UC1
+Miembro --> UC2
+Miembro --> UC3
+Miembro --> UC8
+
+Admin --> UC10
+Admin --> UC9
+
+UC3 ..> UC4 : <<include>>
+UC3 ..> UC5 : <<include>>
+
+UC6 ..> UC3 : <<extend>>\n[Miembro Regular]
+
+UC7 ..> UC3 : <<extend>>\n[Miembro Premium]
+
+UC9 ..> UC8 : <<extend>>\n[Fallo QR]
+
+Regular --> UC6
+Premium --> UC7
+
+@enduml
+``
